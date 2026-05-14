@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Provenance Specification — cms-provenance.org</title>
+<meta name="description" content="An open specification for verifiable content provenance in web CMS. Records, signatures, addressable facts, audit endpoints.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --paper: #f4f1ea;
+  --paper-edge: #e8e3d6;
+  --rule: #2b2b2b;
+  --accent: #c8401f;
+  --accent-deep: #8a2810;
+  --muted: #6b6557;
+  --highlight: #f5e9c9;
+  --verified: #2d5a3d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 400;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+::selection { background: var(--accent); color: var(--paper); }
+
+.serif {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-optical-sizing: auto;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-feature-settings: "ss01", "ss02";
+}
+
+/* ============ HEADER ============ */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  background: rgba(244, 241, 234, 0.92);
+}
+
+.brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.brand .dot {
+  color: var(--accent);
+  font-size: 1.3rem;
+  vertical-align: middle;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav a:hover { color: var(--accent); }
+
+/* ============ HERO ============ */
+.hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 2.5rem 6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  position: relative;
+}
+
+.hero-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-meta span:not(:first-child)::before {
+  content: "·";
+  margin-right: 1.5rem;
+  color: var(--accent);
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 6vw, 5.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  margin-bottom: 0;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-deep);
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 32rem;
+}
+
+.lede .underline {
+  background-image: linear-gradient(transparent 65%, var(--highlight) 65%);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  padding: 0.85rem 1.4rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn .arrow {
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ============ STAMP (the signature artifact) ============ */
+.stamp {
+  position: absolute;
+  top: 5rem;
+  right: 2.5rem;
+  width: 180px;
+  height: 180px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-deep);
+  transform: rotate(-8deg);
+  background: var(--paper);
+  z-index: 5;
+  animation: stampDrop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed var(--accent-deep);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.stamp-inner {
+  text-align: center;
+  line-height: 1.4;
+}
+
+.stamp-inner .num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--ink);
+  display: block;
+  margin: 0.3rem 0;
+  letter-spacing: -0.02em;
+}
+
+@keyframes stampDrop {
+  0% { opacity: 0; transform: rotate(-8deg) scale(2); }
+  60% { opacity: 1; transform: rotate(-8deg) scale(0.92); }
+  100% { opacity: 1; transform: rotate(-8deg) scale(1); }
+}
+
+/* ============ PROBLEM SECTION ============ */
+.section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 6rem 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::before {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.problem {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.problem-statement {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+.problem-statement em {
+  font-style: italic;
+  color: var(--accent-deep);
+}
+
+.problem-detail {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.problem-detail p + p { margin-top: 1.2rem; }
+
+.problem-detail .pull {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.2rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ============ LAYERS ============ */
+.layers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  margin-top: 3rem;
+}
+
+.layer {
+  padding: 2.2rem;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  position: relative;
+  transition: background 0.25s;
+  cursor: default;
+}
+
+.layer:hover { background: var(--paper-edge); }
+
+.layer:hover .layer-num { color: var(--accent); }
+
+.layer-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+  transition: color 0.25s;
+  margin-bottom: 1rem;
+}
+
+.layer-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.layer-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.9rem;
+  line-height: 1.2;
+}
+
+.layer-desc {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+/* ============ SAMPLE ============ */
+.sample-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.sample-intro h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.4rem;
+}
+
+.sample-intro h2 em {
+  font-style: italic;
+  color: var(--accent-deep);
+}
+
+.sample-intro p {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.code-block {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  position: relative;
+  border-radius: 2px;
+}
+
+.code-block::before {
+  content: "JSON-LD";
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.code-block .key { color: #d4b169; }
+.code-block .str { color: #b8c98e; }
+.code-block .num { color: #c8401f; }
+.code-block .punct { color: #6b6557; }
+.code-block .comment { color: #6b6557; font-style: italic; }
+.code-block .verified { color: #7eb593; }
+
+/* ============ PRINCIPLES ============ */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.principle {
+  padding: 2.4rem 2.2rem;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.principle-marker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.principle h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.9rem;
+}
+
+.principle p {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* ============ STATUS ============ */
+.status-section {
+  background: var(--ink);
+  color: var(--paper);
+  margin-top: 6rem;
+  border-top: none;
+}
+
+.status-section .section-label {
+  color: rgba(244, 241, 234, 0.6);
+}
+
+.status-section .section-label::before {
+  background: var(--accent);
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.status-section h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 2.6rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.status-section h2 em {
+  font-style: italic;
+  color: #e89878;
+}
+
+.status-section .desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-top: 1.5rem;
+  color: rgba(244, 241, 234, 0.85);
+}
+
+.status-section .desc p + p { margin-top: 1rem; }
+
+.status-list {
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 2;
+}
+
+.status-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(244, 241, 234, 0.15);
+}
+
+.status-list .v {
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.status-list .v.live { color: #7eb593; }
+.status-list .v.next { color: #e89878; }
+
+/* ============ JOIN ============ */
+.join-section {
+  text-align: center;
+  padding: 8rem 2.5rem;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+
+.join-section::before,
+.join-section::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  background: var(--rule);
+  top: 0;
+  bottom: 0;
+}
+
+.join-section h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  max-width: 24ch;
+  margin: 0 auto 2rem;
+}
+
+.join-section h2 em {
+  font-style: italic;
+  color: var(--accent-deep);
+}
+
+.join-section p {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 36rem;
+  margin: 0 auto 3rem;
+  color: var(--muted);
+}
+
+.join-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 3rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+}
+
+footer .col h4 {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 0.7rem;
+}
+
+footer .col a {
+  color: var(--ink);
+  text-decoration: none;
+  display: block;
+  padding: 0.25rem 0;
+}
+
+footer .col a:hover { color: var(--accent); }
+
+footer .col p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem 4rem;
+    gap: 2rem;
+  }
+
+  .stamp {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-left: auto;
+    width: 140px;
+    height: 140px;
+    font-size: 0.6rem;
+  }
+
+  .stamp-inner .num { font-size: 1.5rem; }
+
+  .section { padding: 4rem 1.5rem; }
+
+  .problem,
+  .sample-wrapper,
+  .status-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .layers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav { gap: 1rem; font-size: 0.7rem; }
+
+  footer {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+  }
+
+  .problem-statement {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .layers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav a:not(:first-child):not(:last-child) {
+    display: none;
+  }
+}
+
+/* ============ INTRO ANIMATION ============ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.fade-in.d1 { animation-delay: 0.1s; }
+.fade-in.d2 { animation-delay: 0.25s; }
+.fade-in.d3 { animation-delay: 0.4s; }
+.fade-in.d4 { animation-delay: 0.55s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">cms-provenance<span class="dot">.</span>org</div>
+  <nav class="nav">
+    <a href="#problem">The gap</a>
+    <a href="#spec">Specification</a>
+    <a href="#status">Status</a>
+    <a href="#join">Join</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="hero-meta fade-in">
+      <span>Open specification</span>
+      <span>Draft 0.1</span>
+      <span>May 2026</span>
+    </div>
+    <h1 class="fade-in d1">A standard for<br><em>verifiable</em> web content.</h1>
+  </div>
+
+  <div class="hero-right">
+    <p class="lede fade-in d2">
+      Schema describes a page. <span class="underline">It does not validate it.</span> CMS Provenance is the layer underneath that lets a machine verify what it is reading, rather than guess.
+    </p>
+    <div class="hero-actions fade-in d3">
+      <a href="#spec" class="btn btn-primary">Read the spec <span class="arrow">→</span></a>
+      <a href="#join" class="btn btn-ghost">Join the working group</a>
+    </div>
+  </div>
+
+  <div class="stamp">
+    <div class="stamp-inner">
+      Verified<br>
+      <span class="num">L4</span>
+      Ed25519 · 2026
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="section-label">The problem</div>
+  <div class="problem">
+    <h2 class="problem-statement">
+      As AI agents weight structured data more heavily, the incentive to manipulate it grows <em>in lockstep</em>.
+    </h2>
+    <div class="problem-detail">
+      <p>Schema.org tells a machine what a page is: a product, a person, a price, a review. It cannot tell that machine who made the assertion, when, or whether to trust it.</p>
+      <p>FAQ and Q&amp;A markup were deprecated as rich results because publishers gamed them. The same dynamic will work through every high-value schema type as the weight placed on structured data grows.</p>
+      <div class="pull">The packaging keeps changing. The pattern stays the same. Decorating a page with rich snippets is not the same as creating a fact-based resource.</div>
+      <p>CMS Provenance is the layer beneath structured data that closes this gap. A web document carries its own metadata about origin, intent, and authorship, signed by the publisher, addressable down to the individual claim, auditable by anyone.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="spec">
+  <div class="section-label">Four layers · one specification</div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: end; margin-bottom: 1rem;">
+    <h2 style="font-family: 'Fraunces', serif; font-size: 2.6rem; font-weight: 400; letter-spacing: -0.025em; line-height: 1.05;">
+      Adopt one layer.<br>Or <em style="font-style: italic; color: var(--accent-deep);">all four.</em>
+    </h2>
+    <p style="font-size: 1.02rem; line-height: 1.65; color: var(--muted); max-width: 36rem; padding-bottom: 0.5rem;">
+      Each layer is independently useful. Each builds on the one below. Conformance is declared, not imposed. A site reaches whichever level fits its publishing practice today, and moves up as that practice evolves.
+    </p>
+  </div>
+
+  <div class="layers-grid">
+    <div class="layer">
+      <div class="layer-num">01</div>
+      <div class="layer-name">L2 · Provenance</div>
+      <div class="layer-title">Authored, sourced, dated</div>
+      <p class="layer-desc">Every document carries a structured record. Author identified by URI, first publication and substantive revision distinguished from technical saves, sources listed with URLs and access dates.</p>
+    </div>
+    <div class="layer">
+      <div class="layer-num">02</div>
+      <div class="layer-name">L3 · Verifiable</div>
+      <div class="layer-title">Signed at publish</div>
+      <p class="layer-desc">A canonical hash of the document and its record, signed with the publisher's Ed25519 key. Key rotation supported. Verifiable by any agent without contacting the publisher.</p>
+    </div>
+    <div class="layer">
+      <div class="layer-num">03</div>
+      <div class="layer-name">L4 · Citable</div>
+      <div class="layer-title">Facts as first-class</div>
+      <p class="layer-desc">Individual claims within a document become addressable. Subject, predicate, object, source. Exposed as Microdata and as W3C Web Annotations. An agent can cite a sentence, not just a page.</p>
+    </div>
+    <div class="layer">
+      <div class="layer-num">04</div>
+      <div class="layer-name">L4 · Audit</div>
+      <div class="layer-title">Well-known endpoint</div>
+      <p class="layer-desc">A site exposes /.well-known/content-provenance with the full index of signed documents, their hashes, signatures, public keys. Paginated, machine-readable, no auth required for good-faith audit.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">What it looks like</div>
+  <div class="sample-wrapper">
+    <div class="sample-intro">
+      <h2>One JSON-LD block.<br><em>Everything signed.</em></h2>
+      <p>The record sits in the document head, machine-readable, human-inspectable. It points back to the well-known endpoint for verification.</p>
+      <p>No new file format. No proprietary container. Just JSON-LD that extends schema.org with provenance-specific fields, and an endpoint anyone can query.</p>
+    </div>
+    <pre class="code-block"><span class="comment">// emitted on every signed page</span>
+<span class="punct">{</span>
+  <span class="key">"@context"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="str">"https://schema.org"</span><span class="punct">,</span>
+    <span class="str">"https://cms-provenance.org/ns/v1"</span>
+  <span class="punct">],</span>
+  <span class="key">"@type"</span><span class="punct">:</span> <span class="str">"Article"</span><span class="punct">,</span>
+  <span class="key">"@id"</span><span class="punct">:</span> <span class="str">"urn:uuid:7c2f8e..."</span><span class="punct">,</span>
+  <span class="key">"author"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"@type"</span><span class="punct">:</span> <span class="str">"Person"</span><span class="punct">,</span>
+    <span class="key">"@id"</span><span class="punct">:</span> <span class="str">"https://orcid.org/0000-..."</span><span class="punct">,</span>
+    <span class="key">"verified"</span><span class="punct">:</span> <span class="verified">true</span>
+  <span class="punct">},</span>
+  <span class="key">"datePublished"</span><span class="punct">:</span> <span class="str">"2026-05-14T09:00:00Z"</span><span class="punct">,</span>
+  <span class="key">"lastSubstantiveRevision"</span><span class="punct">:</span> <span class="str">"2026-05-14"</span><span class="punct">,</span>
+  <span class="key">"citation"</span><span class="punct">:</span> <span class="punct">[ ... ],</span>
+  <span class="key">"signature"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"algorithm"</span><span class="punct">:</span> <span class="str">"Ed25519"</span><span class="punct">,</span>
+    <span class="key">"keyId"</span><span class="punct">:</span> <span class="str">"site-key-2026-05"</span><span class="punct">,</span>
+    <span class="key">"hash"</span><span class="punct">:</span> <span class="str">"sha256:9f2b8a..."</span><span class="punct">,</span>
+    <span class="key">"value"</span><span class="punct">:</span> <span class="str">"MEUCIQDx7..."</span>
+  <span class="punct">},</span>
+  <span class="key">"conformanceLevel"</span><span class="punct">:</span> <span class="num">4</span>
+<span class="punct">}</span></pre>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Principles</div>
+  <div class="principles">
+    <div class="principle">
+      <span class="principle-marker">— 01</span>
+      <h3>CMS-agnostic by design</h3>
+      <p>The specification is owned by no vendor and no platform. TYPO3 ships the first reference implementation. Drupal, WordPress, and Joomla implementations are explicitly planned. Conformance is determined by the spec, not by any one CMS.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-marker">— 02</span>
+      <h3>No registry, no gatekeeper</h3>
+      <p>There is no central authority that grants or revokes provenance. Each publisher controls their own keys. Public registries may emerge, but they are never required for conformance. The web stays decentralised.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-marker">— 03</span>
+      <h3>Extends, never replaces</h3>
+      <p>Built on schema.org, JSON-LD, W3C Web Annotations, RFC 8288. We do not invent file formats, propose new HTTP verbs, or require new infrastructure. The lift is conceptual, not technical.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-marker">— 04</span>
+      <h3>Quality is not in scope</h3>
+      <p>The specification makes provenance legible. It does not rank, score, or evaluate content. Quality remains a judgement made by readers, auditors, search engines, and AI agents. We give them more to work with, not less to think about.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section status-section" id="status">
+  <div class="section-label">Where we are</div>
+  <div class="status-grid">
+    <div>
+      <h2>A draft, not a manifesto. <em>Yet.</em></h2>
+      <div class="desc">
+        <p>The specification is at draft 0.1. The TYPO3 reference implementation is in product definition. The working group is forming, and the institutional home is being discussed with the Open Website Alliance.</p>
+        <p>This is the right moment to shape the standard. Editors, agency leads, CMS core contributors, security researchers, and people building AI agents that read the web are all in scope. Especially welcome are voices from outside TYPO3.</p>
+      </div>
+    </div>
+    <ul class="status-list">
+      <li><span>Specification</span><span class="v live">DRAFT 0.1</span></li>
+      <li><span>Vocabulary</span><span class="v">v1 namespace</span></li>
+      <li><span>TYPO3 reference</span><span class="v next">PRD ready</span></li>
+      <li><span>Drupal reference</span><span class="v">— seeking</span></li>
+      <li><span>WordPress reference</span><span class="v">— seeking</span></li>
+      <li><span>Joomla reference</span><span class="v">— seeking</span></li>
+      <li><span>Working group</span><span class="v next">Forming</span></li>
+      <li><span>OWA stewardship</span><span class="v">In conversation</span></li>
+      <li><span>Conformance suite</span><span class="v">Planned</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="join-section" id="join">
+  <div class="section-label" style="justify-content: center;">Get involved</div>
+  <h2>Help us build the layer <em>beneath</em> the noise.</h2>
+  <p>If you maintain a CMS, run an agency, lead a content team in a regulated industry, or just believe the web deserves better than guesswork, write to us.</p>
+  <div class="join-actions">
+    <a href="mailto:hello@cms-provenance.org" class="btn btn-primary">hello@cms-provenance.org <span class="arrow">→</span></a>
+    <a href="#" class="btn btn-ghost">GitHub working group</a>
+  </div>
+</section>
+
+<footer>
+  <div class="col">
+    <h4>The specification</h4>
+    <a href="#">Draft 0.1 (PDF)</a>
+    <a href="#">Vocabulary v1</a>
+    <a href="#">Conformance levels</a>
+    <a href="#">Changelog</a>
+  </div>
+  <div class="col">
+    <h4>Reference implementations</h4>
+    <a href="#">TYPO3 — content_provenance</a>
+    <a href="#">Drupal — seeking maintainer</a>
+    <a href="#">WordPress — seeking maintainer</a>
+    <a href="#">Joomla — seeking maintainer</a>
+  </div>
+  <div class="col">
+    <h4>About</h4>
+    <p>An open specification. No vendor, no fee, no registry. Maintained by a working group hosted under discussion with the Open Website Alliance.</p>
+    <p style="margin-top: 1rem;">© 2026 · CC-BY 4.0</p>
+  </div>
+</footer>
+
+</body>
+</html>

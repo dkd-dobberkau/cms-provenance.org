@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cms-provenance.org — under construction, in the open</title>
+<meta name="description" content="An open specification for verifiable content provenance in web CMS. The work is in progress. The conversation is already open.">
+<meta name="robots" content="noindex, follow">
+<link href="vendor/css/fonts.css" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --paper: #f4f1ea;
+  --paper-edge: #e8e3d6;
+  --rule: #2b2b2b;
+  --accent: #c8401f;
+  --accent-deep: #8a2810;
+  --muted: #6b6557;
+  --highlight: #f5e9c9;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 400;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+::selection { background: var(--accent); color: var(--paper); }
+
+.serif {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-optical-sizing: auto;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ============ HEADER ============ */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background: var(--paper);
+}
+
+.brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.brand .dot {
+  color: var(--accent);
+  font-size: 1.3rem;
+  vertical-align: middle;
+}
+
+.header-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ============ MAIN ============ */
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 4rem 2.5rem 5rem;
+  gap: 5rem;
+  align-items: center;
+  position: relative;
+}
+
+.intro-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.intro-meta span:not(:first-child)::before {
+  content: "·";
+  margin-right: 1.5rem;
+  color: var(--accent);
+}
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin-bottom: 2rem;
+}
+
+h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-deep);
+}
+
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 34rem;
+  margin-bottom: 1.5rem;
+}
+
+.lede .underline {
+  background-image: linear-gradient(transparent 65%, var(--highlight) 65%);
+}
+
+.sub {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 34rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ============ ARTIFACTS PANEL (right side) ============ */
+.artifacts {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+
+.stamp {
+  width: 220px;
+  height: 220px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-deep);
+  transform: rotate(-7deg);
+  background: var(--paper);
+  position: relative;
+  margin-left: auto;
+  animation: stampDrop 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px dashed var(--accent-deep);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.stamp-inner {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.stamp-inner .label-top {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+}
+
+.stamp-inner .num {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--ink);
+  display: block;
+  margin: 0.4rem 0;
+  letter-spacing: -0.02em;
+}
+
+.stamp-inner .label-bottom {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+@keyframes stampDrop {
+  0% { opacity: 0; transform: rotate(-7deg) scale(2.5); }
+  60% { opacity: 1; transform: rotate(-7deg) scale(0.9); }
+  100% { opacity: 1; transform: rotate(-7deg) scale(1); }
+}
+
+/* The fragment, a paper-strip with the unfinished record */
+.fragment {
+  background: white;
+  padding: 1.6rem 1.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  border: 1px solid var(--rule);
+  margin-right: auto;
+  max-width: 360px;
+  transform: rotate(1.5deg);
+  box-shadow: 4px 4px 0 var(--ink);
+  position: relative;
+  animation: slideIn 0.8s cubic-bezier(0.34, 1.4, 0.64, 1) 0.7s both;
+}
+
+.fragment::before {
+  content: "DRAFT";
+  position: absolute;
+  top: -10px;
+  left: 1.5rem;
+  background: var(--accent);
+  color: var(--paper);
+  padding: 2px 8px;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+}
+
+.fragment .punct { color: var(--muted); }
+.fragment .key { color: var(--ink); font-weight: 500; }
+.fragment .str { color: var(--accent-deep); }
+.fragment .pending {
+  color: var(--muted);
+  font-style: italic;
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: rotate(1.5deg) translateY(20px); }
+  100% { opacity: 1; transform: rotate(1.5deg) translateY(0); }
+}
+
+/* ============ ACTIONS ============ */
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  padding: 0.85rem 1.4rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn .arrow {
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ============ BUILD LOG ============ */
+.buildlog {
+  border-top: 1px solid var(--rule);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 3rem 2.5rem;
+}
+
+.buildlog-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.buildlog h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.buildlog h2 em {
+  font-style: italic;
+  color: #e89878;
+}
+
+.buildlog .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(244, 241, 234, 0.55);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.log-list {
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.9;
+}
+
+.log-list li {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 1.5rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(244, 241, 234, 0.13);
+  align-items: baseline;
+}
+
+.log-list .date {
+  color: rgba(244, 241, 234, 0.5);
+  font-size: 0.74rem;
+}
+
+.log-list .what {
+  color: var(--paper);
+}
+
+.log-list .v {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.5);
+}
+
+.log-list .v.done {
+  color: #7eb593;
+}
+
+.log-list .v.now {
+  color: #e89878;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  border-top: 1px solid rgba(244, 241, 234, 0.15);
+  padding: 2rem 2.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: rgba(244, 241, 234, 0.55);
+  background: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer a {
+  color: rgba(244, 241, 234, 0.85);
+  text-decoration: none;
+}
+
+footer a:hover { color: var(--accent); color: #e89878; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem 3rem;
+    gap: 3rem;
+  }
+
+  .artifacts {
+    align-items: center;
+  }
+
+  .stamp {
+    margin: 0 auto;
+    width: 180px;
+    height: 180px;
+  }
+
+  .stamp-inner .num { font-size: 1.8rem; }
+
+  .fragment {
+    margin: 0 auto;
+    transform: rotate(0deg);
+    max-width: 100%;
+  }
+
+  .buildlog-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .buildlog { padding: 2.5rem 1.5rem; }
+
+  .site-header { padding: 1rem 1.5rem; }
+
+  footer { padding: 1.5rem 1.5rem; }
+
+  .log-list li {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .log-list .v {
+    grid-column: 2;
+    grid-row: 2;
+    padding-top: 0.2rem;
+  }
+}
+
+/* ============ FADE ============ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.fade-in.d1 { animation-delay: 0.1s; }
+.fade-in.d2 { animation-delay: 0.25s; }
+.fade-in.d3 { animation-delay: 0.4s; }
+.fade-in.d4 { animation-delay: 0.55s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">cms-provenance<span class="dot">.</span>org</div>
+  <div class="header-status">
+    <span class="pulse"></span>
+    <span>Draft in progress</span>
+  </div>
+</header>
+
+<main>
+  <div>
+    <div class="intro-meta fade-in">
+      <span>Under construction</span>
+      <span>In the open</span>
+      <span>May 2026</span>
+    </div>
+    <h1 class="fade-in d1">
+      The record<br>
+      is <em>not yet</em><br>
+      signed.
+    </h1>
+    <p class="lede fade-in d2">
+      An open specification for verifiable content provenance in web CMS is being drafted here. <span class="underline">The work is in progress. The conversation is already open.</span>
+    </p>
+    <p class="sub fade-in d3">
+      Four layers: structured provenance records, cryptographic signatures, addressable facts, well-known audit endpoints. The TYPO3 reference implementation is in product definition. Drupal, WordPress, and Joomla maintainers are being sought.
+    </p>
+    <div class="actions fade-in d4">
+      <a href="mailto:hello@cms-provenance.org?subject=I'd like to help with the spec" class="btn btn-primary">
+        Write to the working group <span class="arrow">→</span>
+      </a>
+      <a href="#log" class="btn btn-ghost">See what's done</a>
+    </div>
+  </div>
+
+  <div class="artifacts">
+    <div class="stamp">
+      <div class="stamp-inner">
+        <div class="label-top">Pending</div>
+        <span class="num">Lā—</span>
+        <div class="label-bottom">no key yet</div>
+      </div>
+    </div>
+
+    <pre class="fragment"><span class="punct">{</span>
+  <span class="key">"@type"</span><span class="punct">:</span> <span class="str">"Specification"</span><span class="punct">,</span>
+  <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Content Provenance"</span><span class="punct">,</span>
+  <span class="key">"version"</span><span class="punct">:</span> <span class="str">"0.1-draft"</span><span class="punct">,</span>
+  <span class="key">"datePublished"</span><span class="punct">:</span> <span class="pending">"pending"</span><span class="punct">,</span>
+  <span class="key">"signature"</span><span class="punct">:</span> <span class="pending">"pending"</span><span class="punct">,</span>
+  <span class="key">"maintainers"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="str">"to be announced"</span>
+  <span class="punct">]</span>
+<span class="punct">}</span></pre>
+  </div>
+</main>
+
+<section class="buildlog" id="log">
+  <div class="buildlog-inner">
+    <div>
+      <span class="label">— Build log</span>
+      <h2>An honest list.<br><em>No countdown.</em></h2>
+    </div>
+    <ul class="log-list">
+      <li>
+        <span class="date">May 2026</span>
+        <span class="what">Specification skeleton drafted (v0.1)</span>
+        <span class="v done">Done</span>
+      </li>
+      <li>
+        <span class="date">May 2026</span>
+        <span class="what">TYPO3 reference PRD complete</span>
+        <span class="v done">Done</span>
+      </li>
+      <li>
+        <span class="date">May 2026</span>
+        <span class="what">Extension keys reserved on TER</span>
+        <span class="v now">In progress</span>
+      </li>
+      <li>
+        <span class="date">Jun 2026</span>
+        <span class="what">First public talk, Frankfurt</span>
+        <span class="v now">Scheduled</span>
+      </li>
+      <li>
+        <span class="date">Jun 2026</span>
+        <span class="what">Outreach to Drupal, WordPress, Joomla</span>
+        <span class="v now">Open</span>
+      </li>
+      <li>
+        <span class="date">Q3 2026</span>
+        <span class="what">Working group formed under OWA</span>
+        <span class="v">Planned</span>
+      </li>
+      <li>
+        <span class="date">Q3 2026</span>
+        <span class="what">TYPO3 core extension (Layer 1) released</span>
+        <span class="v">Planned</span>
+      </li>
+      <li>
+        <span class="date">Q4 2026</span>
+        <span class="what">Signing &amp; audit extensions released</span>
+        <span class="v">Planned</span>
+      </li>
+      <li>
+        <span class="date">Q4 2026</span>
+        <span class="what">Conformance test suite (cross-CMS)</span>
+        <span class="v">Planned</span>
+      </li>
+      <li>
+        <span class="date">2027</span>
+        <span class="what">Specification v1.0</span>
+        <span class="v">Planned</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div>cms-provenance.org · An open specification in the making · CC-BY 4.0</div>
+  <div>
+    <a href="mailto:hello@cms-provenance.org">hello@cms-provenance.org</a>
+  </div>
+</footer>
+
+</body>
+</html>
