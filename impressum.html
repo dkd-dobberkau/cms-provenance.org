@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum — cms-provenance.org</title>
+<meta name="description" content="Impressum und Anbieterkennzeichnung für cms-provenance.org gemäß § 5 DDG.">
+<meta name="robots" content="noindex, follow">
+<link href="vendor/css/fonts.css" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a; --paper: #f4f1ea; --paper-edge: #e8e3d6; --rule: #2b2b2b;
+  --accent: #c8401f; --accent-deep: #8a2810; --muted: #6b6557; --highlight: #f5e9c9;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: var(--paper); color: var(--ink); line-height: 1.55; font-weight: 400;
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+::selection { background: var(--accent); color: var(--paper); }
+.site-header {
+  border-bottom: 1px solid var(--rule); padding: 1.2rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: baseline;
+  background: var(--paper); flex-wrap: wrap; gap: .6rem;
+}
+.brand { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.05rem; letter-spacing: -0.01em; }
+.brand a { color: inherit; text-decoration: none; }
+.brand .dot { color: var(--accent); }
+.header-status {
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+}
+main { flex: 1; padding: 3.5rem 2.5rem 4.5rem; }
+.wrap { max-width: 46rem; margin: 0 auto; }
+h1 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.7rem);
+  line-height: 1.12; letter-spacing: -0.02em; margin-bottom: .5rem;
+}
+.lede {
+  font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2.6rem;
+}
+h2 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.18rem;
+  margin: 2.4rem 0 .7rem; padding-top: 1.4rem; border-top: 1px solid var(--paper-edge);
+  letter-spacing: -0.01em;
+}
+h2:first-of-type { border-top: 0; padding-top: 0; }
+h3 { font-size: .95rem; font-weight: 600; margin: 1.3rem 0 .35rem; }
+p, li { font-size: .95rem; }
+p { margin-bottom: .85rem; }
+ul { margin: 0 0 .95rem 1.15rem; }
+li { margin-bottom: .3rem; }
+a { color: var(--accent-deep); text-underline-offset: 2px; }
+a:hover { color: var(--accent); }
+address { font-style: normal; margin-bottom: .9rem; }
+.card {
+  background: var(--paper-edge); border-left: 2px solid var(--accent);
+  padding: 1rem 1.15rem; margin-bottom: 1.1rem; font-size: .93rem;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+.note {
+  background: var(--highlight); padding: 1rem 1.15rem; font-size: .9rem;
+  margin: 1.1rem 0; border-left: 2px solid var(--muted);
+}
+footer {
+  border-top: 1px solid rgba(244, 241, 234, 0.15); padding: 2rem 2.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+  color: rgba(244, 241, 234, 0.55); background: var(--ink);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+footer a { color: rgba(244, 241, 234, 0.85); text-decoration: none; }
+footer a:hover { color: var(--paper); text-decoration: underline; }
+footer nav { display: flex; gap: 1.2rem; }
+@media (max-width: 640px) {
+  .site-header, main, footer { padding-left: 1.3rem; padding-right: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand"><a href="/">cms-provenance<span class="dot">.</span>org</a></div>
+  <div class="header-status">Impressum</div>
+</header>
+
+<main>
+<div class="wrap">
+
+<h1>Impressum</h1>
+<p class="lede">Anbieterkennzeichnung nach § 5 DDG</p>
+
+<h2>Diensteanbieter</h2>
+<address class="card">
+  <strong>dkd Internet Service GmbH</strong><br>
+  Kaiserstraße 73<br>
+  60329 Frankfurt am Main<br>
+  Deutschland
+</address>
+
+<h2>Kontakt</h2>
+<ul>
+  <li>Telefon: <span class="mono">+49 69 2475218-0</span></li>
+  <li>Fax: <span class="mono">+49 69 2475218-99</span></li>
+  <li>E-Mail: <a href="mailto:info@dkd.de">info@dkd.de</a></li>
+  <li>Web: <a href="https://www.dkd.de" rel="noopener">www.dkd.de</a></li>
+  <li>Projektkontakt: <a href="mailto:hello@cms-provenance.org">hello@cms-provenance.org</a></li>
+</ul>
+
+<h2>Vertretungsberechtigte Geschäftsführer</h2>
+<p>Olivier Dobberkau, Søren Schaffstein, Götz Wegenast, Christian Zabanski</p>
+
+<h2>Registereintrag</h2>
+<ul>
+  <li>Registergericht: Amtsgericht Frankfurt am Main</li>
+  <li>Registernummer: HRB 45590</li>
+</ul>
+
+<h2>Umsatzsteuer-Identifikationsnummer</h2>
+<p>Gemäß § 27 a Umsatzsteuergesetz: <span class="mono">DE197946630</span></p>
+
+<h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+<address>
+  Olivier Dobberkau<br>
+  dkd Internet Service GmbH<br>
+  Kaiserstraße 73, 60329 Frankfurt am Main
+</address>
+
+<h2>Haftung für Links</h2>
+<p>Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+
+<h2>Streitschlichtung</h2>
+<p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+<h2>Lizenz der Inhalte</h2>
+<p>Die auf dieser Seite veröffentlichten Spezifikationsentwürfe stehen unter <a href="https://creativecommons.org/licenses/by/4.0/deed.de" rel="noopener">CC-BY 4.0</a>.</p>
+
+</div>
+</main>
+
+<footer>
+  <div>cms-provenance.org · An open specification in the making · CC-BY 4.0</div>
+  <nav>
+    <a href="/">Start</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+    <a href="mailto:hello@cms-provenance.org">hello@cms-provenance.org</a>
+  </nav>
+</footer>
+
+</body>
+</html>

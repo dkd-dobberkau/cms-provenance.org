@@ -431,6 +431,14 @@ footer a {
   text-decoration: none;
 }
 
+footer nav {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+footer a:hover { color: var(--paper); text-decoration: underline; }
+
 footer a:hover { color: var(--accent); color: #e89878; }
 
 /* ============ RESPONSIVE ============ */
@@ -622,9 +630,11 @@ footer a:hover { color: var(--accent); color: #e89878; }
 
 <footer>
   <div>cms-provenance.org · An open specification in the making · CC-BY 4.0</div>
-  <div>
+  <nav>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
     <a href="mailto:hello@cms-provenance.org">hello@cms-provenance.org</a>
-  </div>
+  </nav>
 </footer>
 
 </body>
