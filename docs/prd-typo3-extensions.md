@@ -4,7 +4,7 @@
 
 **Maintainers.** To be assigned. Initial drafting by dkd Internet Service GmbH.
 
-**Related documents.** Content Provenance Specification v0.1 (separate repository). Project site: <https://cms-provenance.org>.
+**Related documents.** [Content Provenance Specification](https://github.com/dkd-dobberkau/content-provenance-spec), currently Draft 0.2. Project site: <https://cms-provenance.org>.
 
 **Revision notes, November 2026.**
 
