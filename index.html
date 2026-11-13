@@ -325,6 +325,18 @@ h1 em {
   color: var(--paper);
 }
 
+.btn-link {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn-link:hover {
+  color: #e89878;
+}
+
 .btn .arrow {
   font-size: 1rem;
   transition: transform 0.2s;
@@ -556,13 +568,14 @@ footer a:hover { color: var(--accent); color: #e89878; }
       An open specification for verifiable content provenance in web CMS is being drafted here. <span class="underline">The work is in progress. The conversation is already open.</span>
     </p>
     <p class="sub fade-in d3">
-      Four layers: structured provenance records, cryptographic signatures, addressable facts, well-known audit endpoints. The TYPO3 reference implementation is in product definition. Drupal, WordPress, and Joomla maintainers are being sought.
+      Four layers: structured provenance records, cryptographic signatures, addressable facts, well-known audit endpoints. The TYPO3 reference implementation is under way, in public repositories. Drupal, WordPress, and Joomla maintainers are being sought.
     </p>
     <div class="actions fade-in d4">
       <a href="mailto:hello@cms-provenance.org?subject=I'd like to help with the spec" class="btn btn-primary">
         Write to the working group <span class="arrow">→</span>
       </a>
-      <a href="#log" class="btn btn-ghost">See what's done</a>
+      <a href="https://github.com/dkd-dobberkau/typo3-provenance" class="btn btn-ghost">Follow on GitHub</a>
+      <a href="#log" class="btn btn-link">See what's done</a>
     </div>
   </div>
 
@@ -611,6 +624,11 @@ footer a:hover { color: var(--accent); color: #e89878; }
         <span class="v done">Done</span>
       </li>
       <li>
+        <span class="date">Nov 2026</span>
+        <span class="what"><a href="https://github.com/dkd-dobberkau/typo3-provenance">Extension repositories created (M1)</a></span>
+        <span class="v done">Done</span>
+      </li>
+      <li>
         <span class="date"><del>Jun 2026</del> Date tbd</span>
         <span class="what">First public talk, Frankfurt</span>
         <span class="v slipped">Slipped</span>
@@ -654,6 +672,7 @@ footer a:hover { color: var(--accent); color: #e89878; }
   <nav>
     <a href="/impressum.html">Impressum</a>
     <a href="/datenschutz.html">Datenschutz</a>
+    <a href="https://github.com/dkd-dobberkau/typo3-provenance">GitHub</a>
     <a href="mailto:hello@cms-provenance.org">hello@cms-provenance.org</a>
   </nav>
 </footer>
