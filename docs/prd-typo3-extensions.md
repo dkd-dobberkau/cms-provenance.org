@@ -12,6 +12,8 @@
 - Vocabulary namespace corrected to `https://cms-provenance.org/ns/v1`, matching the project domain.
 - PHP namespace changed from `Typo3\ContentProvenance` to `CmsProvenance\Provenance`. The `TYPO3` vendor namespace is reserved for TYPO3 Core.
 - Story S-3 no longer relies on `cruser_id`, which was removed in TYPO3 v12 (Breaking #98024).
+- Extension license changed from MIT to GPL-2.0-or-later, the license TYPO3 extensions in TER must use.
+- Repositories created (milestone M1): [typo3-provenance](https://github.com/dkd-dobberkau/typo3-provenance), [typo3-provenance-signing](https://github.com/dkd-dobberkau/typo3-provenance-signing), [typo3-provenance-facts](https://github.com/dkd-dobberkau/typo3-provenance-facts), [typo3-provenance-audit](https://github.com/dkd-dobberkau/typo3-provenance-audit), [content-provenance-spec](https://github.com/dkd-dobberkau/content-provenance-spec), [content-provenance-conformance](https://github.com/dkd-dobberkau/content-provenance-conformance). They start under a personal account and move to a neutral organisation once one exists.
 - Annex A TCA updated for TYPO3 v13/v14: `required => true` instead of `eval => required`, TCA type `link` instead of `renderType => inputLink` (Feature #97159), associative `items` with `label` and `value`, and no `ctrl.searchFields` (removed in v14, Breaking #106972).
 
 **Audience.** TYPO3 contributors, agency developers, integrators, and anyone who wants to build the reference implementation of the Content Provenance Specification on TYPO3.
@@ -297,7 +299,7 @@ We name these openly rather than pretending the v0.1 design covers them.
 
 ## 16. Project structure
 
-The four extensions live in four repositories under a neutral GitHub organisation, ideally with TYPO3 Association involvement. The cross-CMS specification lives in a fifth repository. A sixth repository holds the conformance test suite. Each repository carries its own license (MIT recommended for the extensions, CC-BY for the specification), its own contribution guide, and its own release cadence. Releases of the core extension follow TYPO3 LTS cycles. Sub-extensions release independently but pin compatibility with the core.
+The four extensions live in four repositories under a neutral GitHub organisation, ideally with TYPO3 Association involvement. The cross-CMS specification lives in a fifth repository. A sixth repository holds the conformance test suite. Each repository carries its own license (GPL-2.0-or-later for the extensions, as required for TYPO3 extensions in TER, CC-BY 4.0 for the specification), its own contribution guide, and its own release cadence. Releases of the core extension follow TYPO3 LTS cycles. Sub-extensions release independently but pin compatibility with the core.
 
 A monorepo would simplify cross-extension changes during early development. We recommend resisting that simplification because the four-repo split is the signal that these are independent components, not a single product. The early friction is worth the long-term clarity.
 
