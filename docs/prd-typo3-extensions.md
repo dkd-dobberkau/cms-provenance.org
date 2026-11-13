@@ -56,6 +56,8 @@ The implementation is split into a small core extension and three optional sub-e
 
 A site that installs only the core reaches Conformance Level L2 Provenance. Adding signing reaches L3 Verifiable. Adding facts and audit reaches L4 Citable. Sites can move up the levels at their own pace.
 
+**`provenance_wikidata`.** Optional editorial aid outside the specification layers and conformance levels. Adds a Wikidata lookup to the fact dialog of the rich text editor: editors search the item a fact is about, read its statements and references, and fill the fact from a statement. Queries go through backend AJAX routes with a cache; nothing in rendering, signing or the audit endpoint calls Wikidata, and nothing reaches the record beyond what editors accept. Depends on the facts extension, which offers lookups as a generic extension point (`provenanceFact.lookups`). Design: `docs/superpowers/specs/2026-11-13-provenance-wikidata-design.md`.
+
 This split has one downside worth naming. Cross-cutting concerns, especially the canonicalisation algorithm used by signing and by the audit endpoint, must live in the core to avoid duplication. The core therefore ships a canonicalisation service that the signing and audit extensions consume, even though the core itself does not sign. This is a slight violation of single responsibility in favour of avoiding duplication across optional packages, and it is the right tradeoff for an open-source project where forks are likely.
 
 ## 4. User stories
