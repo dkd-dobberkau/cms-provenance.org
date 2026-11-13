@@ -120,7 +120,7 @@ footer {
 </head>
 <body>
 <main>
-  <span class="label">Content Provenance Specification · Draft 0.2</span>
+  <span class="label">Content Provenance Specification · Draft 0.3</span>
   <h1>Vocabulary <em>v1</em></h1>
   <p>Fields that schema.org does not cover live in this small extension vocabulary. Use it next to schema.org in the JSON-LD context of a Provenance Record:</p>
   <p><span class="ns">https://cms-provenance.org/ns/v1</span></p>
@@ -152,9 +152,21 @@ footer {
       <dt>specVersion<span>text · Layer 4</span></dt>
       <dd>Version of the specification an Audit Endpoint implements.</dd>
     </div>
+    <div class="term" id="contentHash">
+      <dt>contentHash<span>text · Layer 2</span></dt>
+      <dd><code>sha256:</code> followed by the hex SHA-256 of the canonical text of the Document (Annex A.3).</dd>
+    </div>
     <div class="term" id="signature">
       <dt>signature<span>object · Layer 2</span></dt>
-      <dd>Signature over the canonical hash of the Document content plus the Provenance Record. Its inner structure is defined together with the canonicalisation algorithm in Draft 0.3.</dd>
+      <dd>Signature over the canonical Record, which includes <code>contentHash</code> (Annex A.5). Holds <code>algorithm</code>, <code>keyId</code> and <code>signatureValue</code>.</dd>
+    </div>
+    <div class="term" id="algorithm">
+      <dt>algorithm<span>text · Layer 2</span></dt>
+      <dd>Signature algorithm: <code>Ed25519</code> or <code>RSA-PSS-SHA256</code>.</dd>
+    </div>
+    <div class="term" id="signatureValue">
+      <dt>signatureValue<span>text · Layer 2</span></dt>
+      <dd>The signature bytes, base64url-encoded without padding.</dd>
     </div>
     <div class="term" id="keyId">
       <dt>keyId<span>text · Layer 2</span></dt>
