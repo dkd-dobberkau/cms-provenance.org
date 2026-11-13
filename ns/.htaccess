@@ -1,0 +1,23 @@
+# Content Provenance vocabulary: JSON-LD for machines, HTML for people.
+# Source of truth for context.jsonld: content-provenance-spec/vocabulary/v1
+AddType application/ld+json .jsonld
+AddCharset utf-8 .jsonld
+
+# Serve /ns/v1 directly, without the trailing-slash redirect, so that
+# JSON-LD loaders and browsers get the document (and CORS) in one request.
+DirectorySlash Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_ACCEPT} application/(ld\+)?json [NC]
+  RewriteRule ^v1/?$ v1/context.jsonld [L]
+  RewriteRule ^v1/?$ v1/index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Access-Control-Allow-Origin "*"
+  Header always set Vary "Accept"
+  <FilesMatch "\.html$">
+    Header always set Link "</ns/v1/context.jsonld>; rel=\"alternate\"; type=\"application/ld+json\""
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Provenance Vocabulary v1</title>
+<meta name="description" content="Extension vocabulary of the Content Provenance Specification, namespace https://cms-provenance.org/ns/v1">
+<link rel="alternate" type="application/ld+json" href="/ns/v1/context.jsonld">
+<link rel="stylesheet" href="/vendor/css/fonts.css">
+<style>
+:root {
+  --ink: #1b1b1b;
+  --paper: #f4f1ea;
+  --muted: #6b675f;
+  --accent: #b4532a;
+  --rule: rgba(27, 27, 27, 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  line-height: 1.6;
+  padding: 3rem 1rem 4rem;
+}
+
+main { max-width: 52rem; margin: 0 auto; }
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.1;
+  margin: 0.75rem 0 1.25rem;
+}
+
+h1 em { color: var(--accent); }
+
+p { margin-bottom: 1rem; max-width: 40rem; }
+
+code, .ns {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+.ns {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.35rem 0.6rem;
+  word-break: break-all;
+}
+
+a { color: var(--ink); text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+
+h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1rem;
+}
+
+dl { border-top: 1px solid var(--rule); }
+
+.term {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: 0.25rem 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.term dt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.term dt span {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.term dd { font-size: 0.95rem; }
+
+pre {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+footer {
+  margin-top: 3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .term { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main>
+  <span class="label">Content Provenance Specification · Draft 0.2</span>
+  <h1>Vocabulary <em>v1</em></h1>
+  <p>Fields that schema.org does not cover live in this small extension vocabulary. Use it next to schema.org in the JSON-LD context of a Provenance Record:</p>
+  <p><span class="ns">https://cms-provenance.org/ns/v1</span></p>
+  <p>Requests that accept <code>application/ld+json</code> receive the machine-readable <a href="/ns/v1/context.jsonld">JSON-LD context</a>. This page is the human-readable form. The vocabulary is a working draft and follows the <a href="https://github.com/dkd-dobberkau/content-provenance-spec/blob/main/specification.md">specification</a>; terms may still change before version 1.0.</p>
+
+  <h2 id="terms">Terms</h2>
+  <dl>
+    <div class="term" id="lastSubstantiveRevision">
+      <dt>lastSubstantiveRevision<span>xsd:dateTime · Layer 1</span></dt>
+      <dd>Timestamp of the last substantive revision of a Document, distinct from any technical save or republish.</dd>
+    </div>
+    <div class="term" id="maintainedDate">
+      <dt>maintainedDate<span>xsd:dateTime · Layer 1, optional</span></dt>
+      <dd>Date the content was last confirmed as still accurate. Adopted from the MX vocabulary. A confirmation without an edit updates this field only, never <code>lastSubstantiveRevision</code>.</dd>
+    </div>
+    <div class="term" id="accessDate">
+      <dt>accessDate<span>xsd:date · Layer 1</span></dt>
+      <dd>Date on which a cited source was accessed.</dd>
+    </div>
+    <div class="term" id="cpsConformance">
+      <dt>cpsConformance<span>xsd:integer, 1–4</span></dt>
+      <dd>Conformance level a site claims: 1 Discoverable, 2 Provenance, 3 Verifiable, 4 Citable. Formerly <code>conformanceLevel</code>; kept separate from MX <code>mxCompliance</code>.</dd>
+    </div>
+    <div class="term" id="generator">
+      <dt>generator<span>text</span></dt>
+      <dd>Name and version of the CMS that produced the Record. The MX counterpart is <code>provenanceOrigin</code>; consumers may treat the two as equivalent.</dd>
+    </div>
+    <div class="term" id="specVersion">
+      <dt>specVersion<span>text · Layer 4</span></dt>
+      <dd>Version of the specification an Audit Endpoint implements.</dd>
+    </div>
+    <div class="term" id="signature">
+      <dt>signature<span>object · Layer 2</span></dt>
+      <dd>Signature over the canonical hash of the Document content plus the Provenance Record. Its inner structure is defined together with the canonicalisation algorithm in Draft 0.3.</dd>
+    </div>
+    <div class="term" id="keyId">
+      <dt>keyId<span>text · Layer 2</span></dt>
+      <dd>Identifier of the Site Key used for a signature. Enables key rotation; historical keys stay available.</dd>
+    </div>
+    <div class="term" id="key">
+      <dt>key<span>URL · Layer 2</span></dt>
+      <dd>Stable URL of the key document holding the public part of the Site Key.</dd>
+    </div>
+  </dl>
+
+  <h2 id="example">Example</h2>
+<pre>{
+  "@context": ["https://schema.org", "https://cms-provenance.org/ns/v1"],
+  "@type": "Article",
+  "datePublished": "2026-05-14T09:00:00Z",
+  "lastSubstantiveRevision": "2026-05-14T09:00:00Z",
+  "maintainedDate": "2026-11-13T10:00:00Z",
+  "cpsConformance": 2,
+  "generator": "TYPO3 14.0 + provenance 0.1"
+}</pre>
+
+  <footer>
+    <a href="/">cms-provenance.org</a> · CC-BY 4.0 ·
+    <a href="https://github.com/dkd-dobberkau/content-provenance-spec/tree/main/vocabulary/v1">Source</a>
+  </footer>
+</main>
+</body>
+</html>
