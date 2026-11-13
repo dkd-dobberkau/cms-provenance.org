@@ -14,6 +14,7 @@
 - Story S-3 no longer relies on `cruser_id`, which was removed in TYPO3 v12 (Breaking #98024).
 - Extension license changed from MIT to GPL-2.0-or-later, the license TYPO3 extensions in TER must use.
 - Repositories created (milestone M1): [typo3-provenance](https://github.com/dkd-dobberkau/typo3-provenance), [typo3-provenance-signing](https://github.com/dkd-dobberkau/typo3-provenance-signing), [typo3-provenance-facts](https://github.com/dkd-dobberkau/typo3-provenance-facts), [typo3-provenance-audit](https://github.com/dkd-dobberkau/typo3-provenance-audit), [content-provenance-spec](https://github.com/dkd-dobberkau/content-provenance-spec), [content-provenance-conformance](https://github.com/dkd-dobberkau/content-provenance-conformance). They start under a personal account and move to a neutral organisation once one exists.
+- Field names aligned with specification Draft 0.2: JSON-LD `conformanceLevel` is now `cpsConformance` (site setting `cpsConformanceTarget`). The optional `maintainedDate` from MX is adopted next to `lastSubstantiveRevision`; a column `last_maintained_at` and a "Confirm as still accurate" action are added to the core data model in M2.
 - Annex A TCA updated for TYPO3 v13/v14: `required => true` instead of `eval => required`, TCA type `link` instead of `renderType => inputLink` (Feature #97159), associative `items` with `label` and `value`, and no `ctrl.searchFields` (removed in v14, Breaking #106972).
 
 **Audience.** TYPO3 contributors, agency developers, integrators, and anyone who wants to build the reference implementation of the Content Provenance Specification on TYPO3.
@@ -223,7 +224,7 @@ A minimal example, with only the core installed.
       "accessDate": "2026-05-14"
     }
   ],
-  "conformanceLevel": 2,
+  "cpsConformance": 2,
   "generator": "TYPO3 14.0 + provenance 0.1"
 }
 ```
@@ -245,7 +246,7 @@ provenance:
   vocabulary: https://schema.org
   documentIdentifierScheme: uuid           # uuid or url
   defaultAuthorFromBeUser: true
-  conformanceLevelTarget: 2
+  cpsConformanceTarget: 2
 
   signing:                                  # only used if signing is installed
     keyPath: /var/lib/typo3/keys/site-key.pem
