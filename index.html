@@ -397,6 +397,17 @@ h1 em {
   color: var(--paper);
 }
 
+.log-list .what a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(244, 241, 234, 0.35);
+  text-underline-offset: 3px;
+}
+
+.log-list .what a:hover {
+  text-decoration-color: #e89878;
+}
+
 .log-list .v {
   font-size: 0.7rem;
   letter-spacing: 0.1em;
@@ -591,7 +602,7 @@ footer a:hover { color: var(--accent); color: #e89878; }
       </li>
       <li>
         <span class="date">May 2026</span>
-        <span class="what">TYPO3 reference PRD complete</span>
+        <span class="what"><a href="https://github.com/dkd-dobberkau/cms-provenance.org/blob/main/docs/prd-typo3-extensions.md">TYPO3 reference PRD complete</a></span>
         <span class="v done">Done</span>
       </li>
       <li>
