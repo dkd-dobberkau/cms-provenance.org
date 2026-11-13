@@ -176,6 +176,34 @@ footer {
       <dt>key<span>URL · Layer 2</span></dt>
       <dd>Stable URL of the key document holding the public part of the Site Key.</dd>
     </div>
+    <div class="term" id="claim">
+      <dt>claim<span>list · Layer 3</span></dt>
+      <dd>The Facts of the Document, each of type <code>Claim</code> with <code>@id</code> <code>{Document URL}#fact-{id}</code> and the quoted <code>text</code> (Section 3.3).</dd>
+    </div>
+    <div class="term" id="subject">
+      <dt>subject<span>URI · Layer 3</span></dt>
+      <dd>What a Fact is about.</dd>
+    </div>
+    <div class="term" id="predicate">
+      <dt>predicate<span>URI · Layer 3</span></dt>
+      <dd>The property a Fact states; a bare term is read as a schema.org term.</dd>
+    </div>
+    <div class="term" id="object">
+      <dt>object<span>text or URI · Layer 3</span></dt>
+      <dd>The value a Fact states: a string, or <code>{"@id": URI}</code>.</dd>
+    </div>
+    <div class="term" id="evidence">
+      <dt>evidence<span>URI · Layer 3, optional</span></dt>
+      <dd>A source supporting the Fact.</dd>
+    </div>
+    <div class="term" id="confidence">
+      <dt>confidence<span>text · Layer 3, optional</span></dt>
+      <dd><code>measured</code>, <code>estimated</code> or <code>asserted</code>.</dd>
+    </div>
+    <div class="term" id="validUntil">
+      <dt>validUntil<span>xsd:date · Layer 3, optional</span></dt>
+      <dd>Last day the Fact is valid. The start uses schema.org <code>validFrom</code>.</dd>
+    </div>
   </dl>
 
   <h2 id="example">Example</h2>
