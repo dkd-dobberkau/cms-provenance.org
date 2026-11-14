@@ -243,6 +243,8 @@ With the signing extension installed, the block additionally carries a `signatur
 
 The page module receives a small extension. Each page in the tree shows a tiny badge indicating its conformance level, similar to the existing translation status badges. The page properties form gains a tab labeled "Provenance" containing the document identifier (read-only after first publication), the source list as an inline records section, the author and reviewer fields, and the substantive revision controls. The content element form gains an inline records section for facts when the facts extension is installed.
 
+Implementation note (2026-11-14): the backend surface was built as a module "Provenance" (Web/Content area) rather than as page tree badges. The core adds the submodule "Pages" (level of each page's stored record without signing, and what is missing); the facts extension adds "Facts" (all facts of a subtree, searchable). Both show live data in the default language. The badge of story E-1 is not built. Design: `docs/superpowers/specs/2026-11-14-provenance-backend-module-design.md`.
+
 The RTE integration for facts is the riskiest user experience decision in this PRD. We propose an inline button that opens a dialog rather than a sidebar panel, because a dialog interrupts the flow only at the point of marking up and does not consume horizontal space. We name this as a v0.1 choice that should be revisited after the first round of editor feedback.
 
 ## 9. Configuration
