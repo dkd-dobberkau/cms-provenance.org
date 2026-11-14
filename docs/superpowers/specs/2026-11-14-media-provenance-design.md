@@ -93,7 +93,7 @@ The file references (`sys_file_reference`) of the content elements rendered on t
 
 ### Data entry
 
-- The core extension requires the system extension `filemetadata` (`typo3/cms-filemetadata`), which provides `creator`, `copyright` and `source`. Without it the core has no creator field.
+- The core extension suggests the system extension `filemetadata` (`typo3/cms-filemetadata`; composer `suggest`, `ext_emconf` `suggests`), which provides `creator`, `copyright` and `source`. It is not required: as a hard dependency, every test suite that loads the core (including those of the sub-extensions) would have to load it too. Without it, media are listed with licence and digital source type only, and the backend does not report a missing creator.
 - Two new fields on `sys_file_metadata`: `tx_provenance_license` (link field, URL only) and `tx_provenance_digital_source_type` (select, empty by default). Select values are IPTC Digital Source Type terms; at least `digitalCapture`, `compositeWithTrainedAlgorithmicMedia` and `trainedAlgorithmicMedia` (the three MX maps to), the full list to be taken from `https://cv.iptc.org/newscodes/digitalsourcetype/` by the builder.
 - Two new columns on `sys_file` (not on metadata, because they belong to the bytes, not to a language): `tx_provenance_media_uri` and `tx_provenance_sha256`, plus `tx_provenance_sha256_of` holding the `sys_file.sha1` the SHA-256 was computed for, so a replaced file is detected.
 
